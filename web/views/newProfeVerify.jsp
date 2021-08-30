@@ -32,7 +32,7 @@
                 out.print("<h1>ok</h1>");
             }
             else{
-                out.print("<h1>nel</h1>");
+                out.print("<h1>no</h1>");
             }
         %>
         
