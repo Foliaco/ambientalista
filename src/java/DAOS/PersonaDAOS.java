@@ -102,7 +102,27 @@ public class PersonaDAOS implements Interfaz_Persona{
 
     @Override
     public boolean newPresona(PersonaDTO person) {
+        int valor=0;
+        try{
+            
+            sql="insert into personas(id_persona, cedula, name, middlename, lastname, seccondlastname, telefono, email)"
+                    + "VALUES(id_persona, '"+person.getCedula()+"','"+person.getName()+"','"+person.getMiddlename()+"',"
+                    + "'"+person.getLastname()+"','"+person.getSecondlasname()+"','"+person.getTelefono()+"',"
+                    + "'"+person.getEmail()+"')";
+            conex = DB.conect();
+            stm = conex.createStatement();
+            valor = stm.executeUpdate(sql);
+            if(valor!=0){
+                return check= true;
+            }
+           
+            return check;
+        }
+       
+        catch(Exception e){
+            System.out.println("error al insertar los datos: "+ e.getMessage());
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     }
 
     @Override

@@ -4,8 +4,34 @@
     Author     : compaq-cq45
 --%>
 
+<%@page import="DTO.RolDTO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="DAOS.RolDAOS"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%
+    HttpSession sesion=request.getSession();
+    
+    if(sesion.getAttribute("name")==null || sesion.getAttribute("rol")==null || sesion.getAttribute("persona")==null){
+        System.out.print(""+sesion.getAttribute("name") + sesion.getAttribute("rol") + sesion.getAttribute("persona"));
+        response.sendRedirect("../login.jsp");
+        return;
+    }
+    
+    RolDAOS rol=new RolDAOS();
+    ArrayList <RolDTO> listRol=new ArrayList();
+    
+     String elRol="";
+       
+       System.out.print("id rolll is"+((Object)sesion.getAttribute("rol")).getClass().getSimpleName()+sesion.getAttribute("rol"));
+       System.out.print(sesion.getAttribute("rol"));
+       
+       listRol=rol.getOne((Integer)sesion.getAttribute("rol"));
+       for(RolDTO r:listRol){
+           elRol=r.getRol();
+           sesion.setAttribute("id_rol",r.getId_rol());
+       }
+       sesion.setAttribute("elRol",elRol);
+    %>
 
 <nav class="nav-left" id='menu'>
     <div class='logo'>
@@ -19,10 +45,17 @@
             <a href='/eaci/views/dashboard'>Inicio</a>
             <span class='linea'></span>
         </li>
+        <%
+            if(elRol.equals("administrador")){
+                 
+                %>
         <li>
             <a href='/eaci/views/dashboard/usuarios.jsp'>Usuarios</a>
             <span class='linea'></span>
         </li>
+        <%
+            }
+        %>
         <li>
             <a href='./'>Mensajes</a>
             <span class='linea'></span>
